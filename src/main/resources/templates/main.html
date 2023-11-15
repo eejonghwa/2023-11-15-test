@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+<div class="wrap">
+    <div class="logo">logo</div>
+    <div class="content-wrap">
+        <div class="side-notebook">
+            <ul>
+                <li th:each="notebook : ${notebookList}" th:class="${notebook.id == targetNotebook.id} ? 'selected-item' : ''">
+                    <a th:href="@{|/notebook/${notebook.id}|}" th:text="${notebook.name}"></a>
+                </li>
+            </ul>
+            <div>
+                <form action="/notebook/write" method="post">
+                    <input type="submit" value="추가">
+                </form>
+            </div>
+        </div>
+        <div class="side-page">
+            <ul>
+                <li th:each="notePage : ${notePageList}" th:class="${notePage.id == targetNotePage.id} ? 'selected-item' : ''">
+                    <a th:href="@{|/detail/${notePage.id}|}" th:text="${notePage.title}"></a>
+                </li>
+            </ul>
+            <div>
+                <form action="/write" method="post">
+                    <input type="hidden" name="notebookId" th:value="${targetNotebook.id}">
+                    <input type="submit" value="추가">
+                </form>
+            </div>
+        </div>
+        <div class="content">
+            <form action="/update" method="post">
+                <div>
+                    <input type="hidden" name="id" th:value="${targetNotePage.id}">
+                </div>
+                <div>
+                    <input type="text" name="title" th:value="${targetNotePage.title}">
+                </div>
+                <div>
+                    <textarea name="content" cols="30" rows="10" th:text="${targetNotePage.content}"></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="수정" formaction="/update" onclick="return confirm('수정하시겠습니까?')">
+                </div>
+                <div>
+                    <input type="submit" value="삭제" formaction="/delete" onclick="return confirm('삭제하시겠습니까?')">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
